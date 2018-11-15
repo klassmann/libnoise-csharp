@@ -20,5 +20,21 @@ namespace noise.utils
             b = c;
         }
 
+        public static double LinearInterp (double n0, double n1, double a)
+        {
+            return ((1.0 - a) * n0) + (a * n1);
+        }
+
+        public static double MakeInt32Range (double n)
+        {
+            if (n >= 1073741824.0) {
+                return (2.0 * fmod (n, 1073741824.0)) - 1073741824.0;
+            } else if (n <= -1073741824.0) {
+                return (2.0 * fmod (n, 1073741824.0)) + 1073741824.0;
+            } else {
+                return n;
+            }
+        }
+
     }
 }
