@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+using noise.math;
+
 namespace noise.utils
 {
     public static class Utils {
@@ -472,6 +474,14 @@ namespace noise.utils
         public static double ValueNoise3D (int x, int y, int z, long seed = 0)
         {
             return 1.0 - ((double)IntValueNoise3D (x, y, z, seed) / 1073741824.0);
+        }
+
+        public static void LatLonToXYZ (double lat, double lon, ref double x, ref double y, ref double z)
+        {
+            double r = Math.Cos(MathConst.DEG_TO_RAD * lat);
+            x = r * Math.Cos(MathConst.DEG_TO_RAD * lon);
+            y =     Math.Sin(MathConst.DEG_TO_RAD * lat);
+            z = r * Math.Sin(MathConst.DEG_TO_RAD * lon);
         }
 
     }
