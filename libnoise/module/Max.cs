@@ -5,10 +5,8 @@ namespace noise.module
 {
     public class Max : Module {
 
-        // public Max()
-        // {
-        //     base(GetSourceModuleCount());
-        // }
+        public Module InputA;
+        public Module InputB;
 
         public override int GetSourceModuleCount()
         {
@@ -17,9 +15,9 @@ namespace noise.module
 
         public override double GetValue (double x, double y, double z)
         {
-            double v0 = _sourceModules[0].GetValue (x, y, z);
-            double v1 = _sourceModules[1].GetValue (x, y, z);
-            return Utils.GetMax (v0, v1);
+            double v0 = InputA.GetValue (x, y, z);
+            double v1 = InputB.GetValue (x, y, z);
+            return Utils.GetMax(v0, v1);
         }
     }
 }

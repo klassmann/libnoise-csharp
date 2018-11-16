@@ -2,6 +2,9 @@ namespace noise.module
 {
     public class Multiply : Module {
 
+        public Module InputA;
+        public Module InputB;
+
         public override int GetSourceModuleCount()
         {
             return 2;
@@ -9,8 +12,7 @@ namespace noise.module
 
         public override double GetValue (double x, double y, double z)
         {
-            return _sourceModules[0].GetValue (x, y, z)
-                * _sourceModules[1].GetValue (x, y, z);
+            return InputA.GetValue (x, y, z) * InputB.GetValue (x, y, z);
         }
 
     }

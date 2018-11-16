@@ -2,7 +2,6 @@
 using System.Drawing;
 
 using noise;
-using noise.module;
 
 namespace libnoise_demo
 {
@@ -19,7 +18,7 @@ namespace libnoise_demo
 
         static void checkerBoard() {
             Console.WriteLine("CheckerBoard:");
-            Module p = new CheckerBoard();
+            noise.module.Module p = new noise.module.CheckerBoard();
             for (double x = 0.0; x < 10.0; x++) {
                 for (double y = 0.0; y < 10.0; y++) {
                     var v = p.GetValue(x, y, 0.0);
@@ -37,7 +36,7 @@ namespace libnoise_demo
         static void perlin() {
             Console.WriteLine("Perlin:");
 
-            Module p = new Perlin();
+            noise.module.Module p = new noise.module.Perlin();
             var r = new Random();
             for (double x = 0.0; x < 20.0; x++) {
                 for (double y = 0.0; y < 80.0; y++) {
@@ -60,7 +59,7 @@ namespace libnoise_demo
         static void voronoi() {
             Console.WriteLine("Voronoi:");
 
-            Module p = new Voronoi();
+            noise.module.Module p = new noise.module.Voronoi();
             var r = new Random();
             for (double x = 0.0; x < 20.0; x++) {
                 for (double y = 0.0; y < 80.0; y++) {
@@ -80,7 +79,7 @@ namespace libnoise_demo
             }
         }
 
-        static void generateBitmap(Module m, string filename) {
+        static void generateBitmap(noise.module.Module m, string filename) {
             const int SIZE = 512;
             var r = new Random();
             var output = new ImageGenerator(SIZE, SIZE);
@@ -101,7 +100,7 @@ namespace libnoise_demo
             var r = new Random();
             var output = new ImageGenerator(SIZE, SIZE);
             var colors = new Color[SIZE,SIZE];
-            var m = new Billow();
+            var m = new noise.module.Billow();
 
             for (int x = 0; x < SIZE; x++) {
                 for (int y = 0; y < SIZE; y++) {
@@ -144,25 +143,148 @@ namespace libnoise_demo
             output.SaveToFile("terrain.bmp");
         }
 
+        static void generateSphereTerrainExample() {
+            const int SIZE = 180;
+            var r = new Random();
+            var output = new ImageGenerator(SIZE, SIZE);
+            var colors = new Color[SIZE,SIZE];
+            var m = new noise.module.Billow();
+            // m.Frequency = 0.1;
+            var model = new noise.model.Sphere(m);
+
+
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    var v = model.GetValue(x, y);
+
+                    if (v < -0.35) {
+                        colors[x, y] = Color.FromArgb(255, 25, 47, 81);
+                    } else if (v < -0.25) {
+                        colors[x, y] = Color.FromArgb(255, 36, 79, 147);
+                    } else if (v < -0.15) {
+                        colors[x, y] = Color.FromArgb(255, 47, 96, 175);
+                    } else if (v < -0.1) {
+                        colors[x, y] = Color.FromArgb(255, 30, 96, 204);
+                    } else if (v < 0.0) {
+                        colors[x, y] = Color.FromArgb(255, 42, 117, 237);
+                    } else if (v < 0.1) {
+                        colors[x, y] = Color.FromArgb(255, 232, 227, 201);
+                    } else if (v < 0.2) {
+                        colors[x, y] = Color.FromArgb(255, 130, 142, 102);
+                    } else if (v < 0.5) {
+                        colors[x, y] = Color.FromArgb(255, 89, 132, 71);
+                    } else if (v < 0.7) {
+                        colors[x, y] = Color.FromArgb(255, 55, 89, 41);
+                    } else if (v < 0.8) {
+                        colors[x, y] = Color.FromArgb(255, 68, 81, 62);
+                    } else if (v < 0.85) {
+                        colors[x, y] = Color.FromArgb(255, 90, 91, 89);
+                    } else if (v < 0.90) {
+                        colors[x, y] = Color.FromArgb(255, 121, 122, 121);
+                    } else if (v <= 0.9995) {
+                        colors[x, y] = Color.FromArgb(255, 186, 188, 186);
+                    } else if (v <= 1.0 - 0.000001) {
+                        colors[x, y] = Color.FromArgb(255, 200, 200, 200);
+                    } else {
+                        colors[x, y] = Color.FromArgb(255, 242, 242, 242);
+                    }
+                }
+            }
+            output.Draw(colors);
+            output.SaveToFile("terrain_sphere.bmp");
+        }
+
+        static void generateTerrainExperiment() {
+            const int SIZE = 128;
+            var r = new Random();
+            var output = new ImageGenerator(SIZE, SIZE);
+            var colors = new Color[SIZE,SIZE];
+            var billow = new noise.module.Billow();
+            billow.Frequency = 0.01;
+            billow.NoiseQuality = NoiseQuality.QUALITY_BEST;
+            billow.OctaveCount = 30;
+            // billow.Lacunarity = 0.5;
+            // billow.Persistence = 0.1;
+
+
+            var perlin = new noise.module.Perlin();
+            perlin.NoiseQuality = NoiseQuality.QUALITY_FAST;
+            perlin.Frequency = 0.01;
+            perlin.OctaveCount = 12;
+
+            var mul = new noise.module.Multiply();
+            mul.InputB = billow;
+            mul.InputA = perlin;
+            
+            var model = new noise.model.Plane(mul);
+
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    var v = model.GetValue(x, y);
+
+                    if (v < -0.35) {
+                        colors[x, y] = Color.FromArgb(255, 25, 47, 81);
+                    } else if (v < -0.25) {
+                        colors[x, y] = Color.FromArgb(255, 36, 79, 147);
+                    } else if (v < -0.15) {
+                        colors[x, y] = Color.FromArgb(255, 47, 96, 175);
+                    } else if (v < -0.1) {
+                        colors[x, y] = Color.FromArgb(255, 30, 96, 204);
+                    } else if (v < 0.0) {
+                        colors[x, y] = Color.FromArgb(255, 42, 117, 237);
+                    } else if (v < 0.1) {
+                        colors[x, y] = Color.FromArgb(255, 232, 227, 201);
+                    } else if (v < 0.2) {
+                        colors[x, y] = Color.FromArgb(255, 130, 142, 102);
+                    } else if (v < 0.5) {
+                        colors[x, y] = Color.FromArgb(255, 89, 132, 71);
+                    } else if (v < 0.7) {
+                        colors[x, y] = Color.FromArgb(255, 55, 89, 41);
+                    } else if (v < 0.8) {
+                        colors[x, y] = Color.FromArgb(255, 68, 81, 62);
+                    } else if (v < 0.85) {
+                        colors[x, y] = Color.FromArgb(255, 90, 91, 89);
+                    } else if (v < 0.90) {
+                        colors[x, y] = Color.FromArgb(255, 57, 73, 48);
+                    } else if (v < 0.9995) {
+                        colors[x, y] = Color.FromArgb(255, 82, 89, 57);
+                    } else if (v < 1.0 - 0.000001) {
+                        colors[x, y] = Color.FromArgb(255, 112, 117, 85);
+                    } else if (v < 1.0 - 0.0000001) {
+                        colors[x, y] = Color.FromArgb(255, 122, 120, 99);
+                    } else if (v < 1.0 - 0.0000000000000000000000000000000001) {
+                        colors[x, y] = Color.FromArgb(255, 99, 97, 75);
+                    } else {
+                        colors[x, y] = Color.FromArgb(255, 120, 120, 120);
+                    }
+                }
+            }
+            output.Draw(colors);
+            output.SaveToFile("terrain_experiment.bmp");
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("LibNoise");
 
-            var perlin = new Perlin();
-            perlin.OctaveCount = 1;
-            perlin.Frequency = 0.05;
-            generateBitmap(perlin, "perlin.bmp");
+            // var perlin = new noise.module.Perlin();
+            // perlin.OctaveCount = 1;
+            // perlin.Frequency = 0.05;
+            // generateBitmap(perlin, "perlin.bmp");
 
-            var voronoi = new Voronoi();
-            voronoi.Frequency = 0.05;
-            generateBitmap(voronoi, "voronoi.bmp");
+            // var voronoi = new noise.module.Voronoi();
+            // voronoi.Frequency = 0.05;
+            // generateBitmap(voronoi, "voronoi.bmp");
 
-            var checkerBoard = new CheckerBoard();
-            generateBitmap(checkerBoard, "checkerboard.bmp");
+            // var checkerBoard = new noise.module.CheckerBoard();
+            // generateBitmap(checkerBoard, "checkerboard.bmp");
 
-            var spheres = new Spheres();
-            spheres.Frequency = 0.05;
-            generateBitmap(spheres, "spheres.bmp");
+            // var spheres = new noise.module.Spheres();
+            // spheres.Frequency = 0.05;
+            // generateBitmap(spheres, "spheres.bmp");
+
+            // generateSphereTerrainExample();
+            generateTerrainExperiment();
 
         }
     }
