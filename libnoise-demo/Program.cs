@@ -19,8 +19,8 @@ namespace libnoise_demo
         static void checkerBoard() {
             Console.WriteLine("CheckerBoard:");
             Module p = new CheckerBoard();
-            for (double x = 0.0; x < 15.0; x++) {
-                for (double y = 0.0; y < 35.0; y++) {
+            for (double x = 0.0; x < 10.0; x++) {
+                for (double y = 0.0; y < 10.0; y++) {
                     var v = p.GetValue(x, y, 0.0);
                     if (v == 1) {
                         draw(0);
@@ -39,14 +39,39 @@ namespace libnoise_demo
             Module p = new Perlin();
             var r = new Random();
             for (double x = 0.0; x < 20.0; x++) {
-                for (double y = 0.0; y < 20.0; y++) {
+                for (double y = 0.0; y < 80.0; y++) {
                     var v = p.GetValue(x, y, r.NextDouble());
                     if (v < -0.5) {
                         draw(0);
                     } else if (v < 0.0) {
                         draw(1);
-                    } else {
+                    } else if (v < 0.5) {
                         draw(2);
+                    } else {
+                        draw(3);
+                    }
+                }
+                    
+                Console.WriteLine();
+            }
+        }
+
+        static void voronoi() {
+            Console.WriteLine("Voronoi:");
+
+            Module p = new Voronoi();
+            var r = new Random();
+            for (double x = 0.0; x < 20.0; x++) {
+                for (double y = 0.0; y < 80.0; y++) {
+                    var v = p.GetValue(x, y, r.NextDouble());
+                    if (v < -0.5) {
+                        draw(0);
+                    } else if (v < 0.0) {
+                        draw(1);
+                    } else if (v < 0.5) {
+                        draw(2);
+                    } else {
+                        draw(3);
                     }
                 }
                     
@@ -59,6 +84,7 @@ namespace libnoise_demo
             Console.WriteLine("LibNoise");
             checkerBoard();
             perlin();
+            voronoi();
 
         }
     }

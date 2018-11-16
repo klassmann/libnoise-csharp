@@ -469,7 +469,7 @@ namespace noise.utils
             return LinearInterp (iy0, iy1, zs);
         }
 
-        public static double ValueNoise3D (int x, int y, int z, long seed)
+        public static double ValueNoise3D (int x, int y, int z, long seed = 0)
         {
             return 1.0 - ((double)IntValueNoise3D (x, y, z, seed) / 1073741824.0);
         }
