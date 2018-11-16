@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 using noise;
 using noise.module;
@@ -79,12 +80,39 @@ namespace libnoise_demo
             }
         }
 
+        static void generateBitmap(Module m, string filename) {
+            const int SIZE = 512;
+            var r = new Random();
+            var output = new ImageGenerator(SIZE, SIZE);
+            var colors = new Color[SIZE,SIZE];
+
+            for (int x = 0; x < SIZE; x++) {
+                for (int y = 0; y < SIZE; y++) {
+                    var v = m.GetValue(x, y, 0.5);//r.NextDouble());
+                    colors[x, y] = Color.FromArgb(255, 125, 255 - (int)(((2.0 + v) * 125) % 200), 125);
+                }
+            }
+            output.Draw(colors);
+            output.SaveToFile(filename);
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("LibNoise");
-            checkerBoard();
-            perlin();
-            voronoi();
+            // checkerBoard();
+            // perlin();
+            // voronoi();
+            Perlin perlin = new Perlin();
+            perlin.OctaveCount = 3;
+            perlin.Frequency = 0.14;
+            generateBitmap(perlin, "perlin.bmp");
+
+            Voronoi voronoi = new Voronoi();
+            voronoi.Frequency = 0.3;
+            generateBitmap(voronoi, "voronoi.bmp");
+
+            CheckerBoard checkerBoard = new CheckerBoard();
+            generateBitmap(checkerBoard, "checkerboard.bmp");
 
         }
     }

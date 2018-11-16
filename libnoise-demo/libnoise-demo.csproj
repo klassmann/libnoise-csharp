@@ -6,5 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
       <ProjectReference Include="../libnoise/libnoise.csproj" />
+      <PackageReference Include="Microsoft.Windows.Compatibility" Version="2.0.1" />
   </ItemGroup>
 </Project>
