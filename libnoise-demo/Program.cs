@@ -102,17 +102,21 @@ namespace libnoise_demo
             // checkerBoard();
             // perlin();
             // voronoi();
-            Perlin perlin = new Perlin();
+            var perlin = new Perlin();
             perlin.OctaveCount = 3;
             perlin.Frequency = 0.14;
             generateBitmap(perlin, "perlin.bmp");
 
-            Voronoi voronoi = new Voronoi();
+            var voronoi = new Voronoi();
             voronoi.Frequency = 0.3;
             generateBitmap(voronoi, "voronoi.bmp");
 
-            CheckerBoard checkerBoard = new CheckerBoard();
+            var checkerBoard = new CheckerBoard();
             generateBitmap(checkerBoard, "checkerboard.bmp");
+
+            var spheres = new Spheres();
+            spheres.Frequency = 0.3;
+            generateBitmap(spheres, "spheres.bmp");
 
         }
     }
