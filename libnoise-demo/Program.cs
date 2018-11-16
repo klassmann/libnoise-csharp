@@ -88,7 +88,7 @@ namespace libnoise_demo
 
             for (int x = 0; x < SIZE; x++) {
                 for (int y = 0; y < SIZE; y++) {
-                    var v = m.GetValue(x, y, 0.5);//r.NextDouble());
+                    var v = m.GetValue(x, 0.0, y);//r.NextDouble());
                     colors[x, y] = Color.FromArgb(255, 125, 255 - (int)(((2.0 + v) * 125) % 200), 125);
                 }
             }
@@ -103,19 +103,19 @@ namespace libnoise_demo
             // perlin();
             // voronoi();
             var perlin = new Perlin();
-            perlin.OctaveCount = 3;
-            perlin.Frequency = 0.14;
+            perlin.OctaveCount = 1;
+            perlin.Frequency = 0.05;
             generateBitmap(perlin, "perlin.bmp");
 
             var voronoi = new Voronoi();
-            voronoi.Frequency = 0.3;
+            voronoi.Frequency = 0.05;
             generateBitmap(voronoi, "voronoi.bmp");
 
             var checkerBoard = new CheckerBoard();
             generateBitmap(checkerBoard, "checkerboard.bmp");
 
             var spheres = new Spheres();
-            spheres.Frequency = 0.3;
+            spheres.Frequency = 0.05;
             generateBitmap(spheres, "spheres.bmp");
 
         }
