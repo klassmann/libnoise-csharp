@@ -196,6 +196,16 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "libnoise/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/libnoise.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/libnoise.dll": {}
+        }
       }
     }
   },
@@ -656,11 +666,17 @@
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "libnoise/1.0.0": {
+      "type": "project",
+      "path": "../libnoise/libnoise.csproj",
+      "msbuildProject": "../libnoise/libnoise.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "Microsoft.NETCore.App >= 2.0.0"
+      "Microsoft.NETCore.App >= 2.0.0",
+      "libnoise >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -690,7 +706,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "/Users/klassmann/Desktop/Development/libnoise-csharp/libnoise/libnoise.csproj": {
+              "projectPath": "/Users/klassmann/Desktop/Development/libnoise-csharp/libnoise/libnoise.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

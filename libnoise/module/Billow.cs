@@ -1,6 +1,11 @@
+
+using System;
+using noise.utils;
+
 namespace noise.module
 {
     public class Billow : Module {
+
         private const double DEFAULT_BILLOW_FREQUENCY = 1.0;
         private const double DEFAULT_BILLOW_LACUNARITY = 2.0;
         private const int DEFAULT_BILLOW_OCTAVE_COUNT = 6;
@@ -21,13 +26,13 @@ namespace noise.module
           return 0;
         }
 
-        public double GetValue (double x, double y, double z)
+        public override double GetValue (double x, double y, double z)
         {
             double value = 0.0;
             double signal = 0.0;
             double curPersistence = 1.0;
             double nx, ny, nz;
-            int seed;
+            long seed;
 
             x *= Frequency;
             y *= Frequency;
@@ -37,15 +42,15 @@ namespace noise.module
 
                 // Make sure that these floating-point values have the same range as a 32-
                 // bit integer so that we can pass them to the coherent-noise functions.
-                nx = MakeInt32Range (x);
-                ny = MakeInt32Range (y);
-                nz = MakeInt32Range (z);
+                nx = Utils.MakeInt32Range(x);
+                ny = Utils.MakeInt32Range(y);
+                nz = Utils.MakeInt32Range(z);
 
                 // Get the coherent-noise value from the input value and add it to the
                 // final result.
-                seed = (m_seed + curOctave) & 0xffffffff;
-                signal = GradientCoherentNoise3D (nx, ny, nz, seed, m_noiseQuality);
-                signal = 2.0 * fabs (signal) - 1.0;
+                seed = (Seed + curOctave) & 0xffffffff;
+                signal = Utils.GradientCoherentNoise3D (nx, ny, nz, seed, NoiseQuality);
+                signal = 2.0 * Math.Abs(signal) - 1.0;
                 value += signal * curPersistence;
 
                 // Prepare the next octave.

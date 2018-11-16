@@ -10,7 +10,7 @@ namespace noise.module
             return 0;
         }
 
-        public double GetValue (double x, double y, double z)
+        public override double GetValue (double x, double y, double z)
         {
             int ix = (int)(Math.Floor(Utils.MakeInt32Range (x)));
             int iy = (int)(Math.Floor(Utils.MakeInt32Range (y)));

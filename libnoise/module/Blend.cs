@@ -4,12 +4,12 @@ using noise.utils;
 namespace noise.module
 {
     public class Blend : Module {
-        public int GetSourceModuleCount()
+        public override int GetSourceModuleCount()
         {
             return 3;
         }
 
-        public double GetValue (double x, double y, double z)
+        public override double GetValue (double x, double y, double z)
         {
             double v0 = _sourceModules[0].GetValue (x, y, z);
             double v1 = _sourceModules[1].GetValue (x, y, z);
