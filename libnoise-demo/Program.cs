@@ -8,6 +8,13 @@ namespace libnoise_demo
 
     class Program
     {
+        static string[] gradient = new string[] {
+            "░", "▒", "▓", "█"
+        };
+
+        static void draw(int n) {
+            Console.Write(gradient[n % 4]);
+        }
 
         static void checkerBoard() {
             Console.WriteLine("CheckerBoard:");
@@ -16,9 +23,30 @@ namespace libnoise_demo
                 for (double y = 0.0; y < 35.0; y++) {
                     var v = p.GetValue(x, y, 0.0);
                     if (v == 1) {
-                        Console.Write("0");
+                        draw(0);
                     } else {
-                        Console.Write("X");
+                        draw(2);
+                    }
+                }
+                    
+                Console.WriteLine();
+            }
+        }
+
+        static void perlin() {
+            Console.WriteLine("Perlin:");
+
+            Module p = new Perlin();
+            var r = new Random();
+            for (double x = 0.0; x < 20.0; x++) {
+                for (double y = 0.0; y < 20.0; y++) {
+                    var v = p.GetValue(x, y, r.NextDouble());
+                    if (v < -0.5) {
+                        draw(0);
+                    } else if (v < 0.0) {
+                        draw(1);
+                    } else {
+                        draw(2);
                     }
                 }
                     
@@ -30,6 +58,8 @@ namespace libnoise_demo
         {
             Console.WriteLine("LibNoise");
             checkerBoard();
+            perlin();
+
         }
     }
 }
