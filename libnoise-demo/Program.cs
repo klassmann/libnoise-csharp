@@ -16,6 +16,40 @@ namespace libnoise_demo
             Console.Write(gradient[n % 4]);
         }
 
+        static Color GetTerrainColorRamp(double v) {
+            if (v < -0.35) {
+                return Color.FromArgb(255, 25, 47, 81);
+            } else if (v < -0.25) {
+                return Color.FromArgb(255, 36, 79, 147);
+            } else if (v < -0.15) {
+                return Color.FromArgb(255, 47, 96, 175);
+            } else if (v < -0.1) {
+                return Color.FromArgb(255, 30, 96, 204);
+            } else if (v < 0.0) {
+                return Color.FromArgb(255, 42, 117, 237);
+            } else if (v < 0.1) {
+                return Color.FromArgb(255, 232, 227, 201);
+            } else if (v < 0.2) {
+                return Color.FromArgb(255, 130, 142, 102);
+            } else if (v < 0.5) {
+                return Color.FromArgb(255, 89, 132, 71);
+            } else if (v < 0.7) {
+                return Color.FromArgb(255, 55, 89, 41);
+            } else if (v < 0.8) {
+                return Color.FromArgb(255, 68, 81, 62);
+            } else if (v < 0.85) {
+                return Color.FromArgb(255, 90, 91, 89);
+            } else if (v < 0.90) {
+                return Color.FromArgb(255, 121, 122, 121);
+            } else if (v <= 0.9995) {
+                return Color.FromArgb(255, 186, 188, 186);
+            } else if (v <= 1.0 - 0.000001) {
+                return Color.FromArgb(255, 200, 200, 200);
+            }
+            return Color.FromArgb(255, 242, 242, 242);
+        }
+
+
         static void checkerBoard() {
             Console.WriteLine("CheckerBoard:");
             noise.module.Module p = new noise.module.CheckerBoard();
@@ -87,8 +121,8 @@ namespace libnoise_demo
 
             for (int x = 0; x < SIZE; x++) {
                 for (int y = 0; y < SIZE; y++) {
-                    var v = m.GetValue(x, 0.0, y);//r.NextDouble());
-                    colors[x, y] = Color.FromArgb(255, 125, 255 - (int)(((2.0 + v) * 125) % 200), 125);
+                    var v = m.GetValue(x, 0.0, y);
+                    colors[x, y] = GetTerrainColorRamp(v);
                 }
             }
             output.Draw(colors);
@@ -156,38 +190,7 @@ namespace libnoise_demo
             for (int x = 0; x < SIZE; x++) {
                 for (int y = 0; y < SIZE; y++) {
                     var v = model.GetValue(x, y);
-
-                    if (v < -0.35) {
-                        colors[x, y] = Color.FromArgb(255, 25, 47, 81);
-                    } else if (v < -0.25) {
-                        colors[x, y] = Color.FromArgb(255, 36, 79, 147);
-                    } else if (v < -0.15) {
-                        colors[x, y] = Color.FromArgb(255, 47, 96, 175);
-                    } else if (v < -0.1) {
-                        colors[x, y] = Color.FromArgb(255, 30, 96, 204);
-                    } else if (v < 0.0) {
-                        colors[x, y] = Color.FromArgb(255, 42, 117, 237);
-                    } else if (v < 0.1) {
-                        colors[x, y] = Color.FromArgb(255, 232, 227, 201);
-                    } else if (v < 0.2) {
-                        colors[x, y] = Color.FromArgb(255, 130, 142, 102);
-                    } else if (v < 0.5) {
-                        colors[x, y] = Color.FromArgb(255, 89, 132, 71);
-                    } else if (v < 0.7) {
-                        colors[x, y] = Color.FromArgb(255, 55, 89, 41);
-                    } else if (v < 0.8) {
-                        colors[x, y] = Color.FromArgb(255, 68, 81, 62);
-                    } else if (v < 0.85) {
-                        colors[x, y] = Color.FromArgb(255, 90, 91, 89);
-                    } else if (v < 0.90) {
-                        colors[x, y] = Color.FromArgb(255, 121, 122, 121);
-                    } else if (v <= 0.9995) {
-                        colors[x, y] = Color.FromArgb(255, 186, 188, 186);
-                    } else if (v <= 1.0 - 0.000001) {
-                        colors[x, y] = Color.FromArgb(255, 200, 200, 200);
-                    } else {
-                        colors[x, y] = Color.FromArgb(255, 242, 242, 242);
-                    }
+                    colors[x, y] = GetTerrainColorRamp(v);
                 }
             }
             output.Draw(colors);
@@ -284,7 +287,18 @@ namespace libnoise_demo
             // generateBitmap(spheres, "spheres.bmp");
 
             // generateSphereTerrainExample();
-            generateTerrainExperiment();
+            // generateTerrainExperiment();
+
+            
+            // var perlin = new noise.module.Perlin();
+            // perlin.OctaveCount = 1;
+            // perlin.Frequency = 0.05;
+            // generateBitmap(perlin, "perlin.bmp");
+            // var ridged = new noise.module.RidgedMulti();
+            // var add = new noise.module.Multiply();
+            // add.InputA = perlin;
+            // add.InputB = ridged;
+            // generateBitmap(add, "ridged.bmp");
 
         }
     }
