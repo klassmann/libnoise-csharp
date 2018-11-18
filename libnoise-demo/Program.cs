@@ -300,6 +300,28 @@ namespace libnoise_demo
             // add.InputB = ridged;
             // generateBitmap(add, "ridged.bmp");
 
+            // var perlin = new noise.module.Perlin();
+            // perlin.OctaveCount = 1;
+            // perlin.Frequency = 0.05;
+            // generateBitmap(perlin, "perlin.bmp");
+            
+            // var constM = new noise.module.Const();
+            // constM.ConstValue = 0.0;
+
+            // var voronoi = new noise.module.Voronoi();
+            // voronoi.Frequency = 0.05;
+
+            // var spheres = new noise.module.Spheres();
+            // spheres.Frequency = 0.05;
+
+            // var displace = new noise.module.Displace();
+            // displace.Input = perlin;
+            // displace.DisplaceX = spheres;
+            // displace.DisplaceY = constM;
+            // displace.DisplaceZ = spheres;
+
+            // generateBitmap(displace, "displace.bmp");
+
         }
     }
 }
