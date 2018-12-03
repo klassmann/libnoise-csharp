@@ -6,7 +6,7 @@ There are other libraries but my intention here is to be compatible with the C++
 
 I am finishing the basic port and after this, I will polish features and add tests.
 
-** Work-In-Progress **
+**Work-In-Progress**
 
 ## Requirements
 - [.NET Core](https://github.com/dotnet/core)
