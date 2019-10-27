@@ -1,12 +1,25 @@
+
+using System;
+
 namespace noise.module
 {
-    public class Abs : Module {
-        public override int GetSourceModuleCount() {
-            return 1;
+    public class Abs : Module
+    {
+        private const int ModuleCount = 1;
+
+        public Abs() : base(ModuleCount)
+        {
+
         }
 
-        public override double GetValue(double x, double y, double z) {
-            return _sourceModules[0].GetValue(x, y, z);
+        public override int GetSourceModuleCount()
+        {
+            return ModuleCount;
+        }
+
+        public override double GetValue(double x, double y, double z)
+        {
+            return Math.Abs(GetSourceModule(0).GetValue(x, y, z));
         }
     }
 }

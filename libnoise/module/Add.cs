@@ -1,17 +1,22 @@
 namespace noise.module
 {
-    public class Add : Module {
-        public Module InputA;
-        public Module InputB;
+    public class Add : Module
+    {
+        private const int ModuleCount = 2;
+
+        public Add() : base(ModuleCount)
+        {
+        }
 
         public override int GetSourceModuleCount()
         {
-          return 2;
+            return ModuleCount;
         }
 
-        public override double GetValue (double x, double y, double z) 
+        public override double GetValue(double x, double y, double z)
         {
-            return InputA.GetValue (x, y, z) + InputB.GetValue (x, y, z);
+            return GetSourceModule(0).GetValue(x, y, z) +
+                    GetSourceModule(0).GetValue(x, y, z);
         }
     }
 }
